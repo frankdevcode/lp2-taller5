@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">¡Bienvenido a Mi Blog!</h1>
+    <p class="lead">Un blog personal creado con Flask.</p>
+    <hr class="my-4">
+    <p>Explora las últimas publicaciones o navega por categorías.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('main.posts') }}" role="button">Ver publicaciones</a>
+</div>
+{% endblock %}
