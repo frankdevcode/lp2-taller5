@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article>
+    <h1>{{ post.title }}</h1>
+    <p class="text-muted">Publicado el {{ post.date_posted.strftime('%Y-%m-%d') }}</p>
+    <div class="content">
+        {{ post.content }}
+    </div>
+</article>
+<div class="mt-4">
+    <a href="{{ url_for('main.posts') }}" class="btn btn-secondary">Volver a publicaciones</a>
+</div>
+{% endblock %}
