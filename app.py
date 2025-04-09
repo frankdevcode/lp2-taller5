@@ -16,9 +16,9 @@ app.register_blueprint(main_routes)
 
 @app.route('/')
 def index():
-    return render_template('index.html', title='Inicio')
+  return render_template('index.html', title='Inicio')
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True)
+  with app.app_context():
+    db.create_all()
+  app.run(debug=True)

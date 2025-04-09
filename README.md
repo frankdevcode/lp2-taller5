@@ -40,3 +40,26 @@ Este proyecto consiste en la creación de un blog personal utilizando el framewo
 - HTML/CSS
 - Bootstrap
 - SQLite (desarrollo) / PostgreSQL (producción)
+
+
+-----------------------
+## Notas para el desarrollo del proyecto
+- 1 Database - PosgresSQL
+- 2 API - FastAPPI
+- 3 Web - Flask
+- 4 Proxy - ngix
+- 5 Browser - Red pública
+- 6 Usuario
+- 7 Database, API, Web y Proxy deben ir dentro de un contenedor "Dockerfile"
+
+EJEMPLO: 
+Primero empecemos de la siguiente manera:
+- 1 crear la Database - PosgresSQL
+- 2  Luego crear la API - FastAPI
+- 3 Despues, crear la parte Web - Flask
+- 4  Luego el Proxy - nginx
+
+- La Database, API, Web y Proxy deben ir dentro de un contenedor "Dockerfile"
+
+- 5 Browser - Red pública
+- 6 Usuario
