@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Blog Personal{% endblock %}
+
+{% block meta_description %}Explora las últimas publicaciones de nuestro blog personal. Artículos sobre tecnología, desarrollo web y más.{% endblock %}
+
+{% block meta_keywords %}blog, artículos, tecnología, desarrollo web, flask, python{% endblock %}
+
+{% block og_title %}Blog Personal - Últimas Publicaciones{% endblock %}
+
+{% block og_description %}Explora las últimas publicaciones de nuestro blog personal. Artículos sobre tecnología, desarrollo web y más.{% endblock %}
+
+{% block twitter_title %}Blog Personal - Últimas Publicaciones{% endblock %}
+
+{% block twitter_description %}Explora las últimas publicaciones de nuestro blog personal. Artículos sobre tecnología, desarrollo web y más.{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">¡Bienvenido a Mi Blog!</h1>
+    <p class="lead">Explora nuestras últimas publicaciones.</p>
+    <hr class="my-4">
+    
+    <div class="row">
+        {% if posts %}
+            {% for post in posts %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.content[:200] }}...</p>
+                            <a href="{{ url_for('main.post', slug=post.slug) }}" class="btn btn-primary">Leer más</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <p>No hay publicaciones disponibles.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -8,30 +8,52 @@ Este proyecto consiste en la creación de un blog personal utilizando el framewo
 
 ## Plan de Releases
 
-### Release 1: Funcionalidad básica
+### Release 1: Configuración y Estructura Base
 - Configuración inicial del proyecto Flask
 - Estructura básica de la base de datos
 - Sistema de plantillas básico
 - Página de inicio con listado de publicaciones
 - Página de detalle de publicación
+- Implementación de URLs amigables
+- Configuración de meta tags para SEO
 
-### Release 2: Sistema de usuarios
+### Release 2: Sistema de Usuarios y Autenticación
 - Registro de usuarios
 - Inicio y cierre de sesión
 - Perfil de usuario
 - Protección de rutas
+- Roles de usuario (administrador, autor, lector)
+- Autenticación con redes sociales (Google, GitHub)
+- Recuperación de contraseña
 
-### Release 3: Gestión de contenido
+### Release 3: Gestión de Contenido Avanzada
 - Creación de publicaciones
 - Edición de publicaciones
 - Eliminación de publicaciones
 - Categorías y etiquetas
+- Editor WYSIWYG con soporte Markdown
+- Sistema de borradores
+- Programación de publicaciones
+- Gestión de imágenes con optimización automática
+- Tiempo estimado de lectura
 
-### Release 4: Interacción y mejoras
+### Release 4: Interacción Social y UX
 - Sistema de comentarios
-- Búsqueda de publicaciones
-- Mejoras en la interfaz de usuario
-- Optimizaciones finales
+- Sistema de "Me gusta" y reacciones
+- Compartir en redes sociales
+- Implementación de Newsletter
+- Búsqueda avanzada de publicaciones
+- Modo oscuro/claro
+- Diseño responsive mejorado
+
+### Release 5: Optimización y Características Avanzadas
+- Panel de administración
+- Estadísticas y analytics
+- Sitemap automático
+- Caché y optimización de rendimiento
+- Sistema de notificaciones
+- API REST para integración con otros servicios
+- Exportación/Importación de contenido
 
 ## Tecnologías utilizadas
 - Python 3.x
@@ -40,26 +62,5 @@ Este proyecto consiste en la creación de un blog personal utilizando el framewo
 - HTML/CSS
 - Bootstrap
 - SQLite (desarrollo) / PostgreSQL (producción)
-
-
------------------------
-## Notas para el desarrollo del proyecto
-- 1 Database - PosgresSQL
-- 2 API - FastAPPI
-- 3 Web - Flask
-- 4 Proxy - ngix
-- 5 Browser - Red pública
-- 6 Usuario
-- 7 Database, API, Web y Proxy deben ir dentro de un contenedor "Dockerfile"
-
-EJEMPLO: 
-Primero empecemos de la siguiente manera:
-- 1 crear la Database - PosgresSQL
-- 2  Luego crear la API - FastAPI
-- 3 Despues, crear la parte Web - Flask
-- 4  Luego el Proxy - nginx
-
-- La Database, API, Web y Proxy deben ir dentro de un contenedor "Dockerfile"
-
-- 5 Browser - Red pública
-- 6 Usuario
+- Redis (para caché)
+- Celery (para tareas asíncronas)

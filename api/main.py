@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import posts, users, auth, categories, comments
+from app.routers import posts, users, auth, categories, comments, health
 from app.database.init_db import create_tables
 
 app = FastAPI(
@@ -19,11 +19,12 @@ app.add_middleware(
 )
 
 # Incluir routers
-app.include_router(auth.router, tags=["Autenticación"], prefix="/api")
-app.include_router(users.router, tags=["Usuarios"], prefix="/api/users")
-app.include_router(posts.router, tags=["Publicaciones"], prefix="/api/posts")
-app.include_router(categories.router, tags=["Categorías"], prefix="/api/categories")
-app.include_router(comments.router, tags=["Comentarios"], prefix="/api/comments")
+app.include_router(posts.router, prefix="/api/v1/posts", tags=["posts"])
+app.include_router(users.router, prefix="/api/v1/users", tags=["users"])
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
+app.include_router(categories.router, prefix="/api/v1/categories", tags=["categories"])
+app.include_router(comments.router, prefix="/api/v1/comments", tags=["comments"])
+app.include_router(health.router, prefix="/health", tags=["health"])
 
 @app.on_event("startup")
 async def startup():

@@ -1,12 +1,12 @@
-FROM postgres:14
+FROM postgres:14-alpine
 
-# Variables de entorno para configurar la base de datos
+# Copiar scripts de inicialización
+COPY docker-entrypoint-initdb.d/ /docker-entrypoint-initdb.d/
+
+# Configuración de PostgreSQL
 ENV POSTGRES_USER=bloguser
 ENV POSTGRES_PASSWORD=blogpassword
 ENV POSTGRES_DB=blogdb
 
-# Copiar script de inicialización
-COPY init.sql /docker-entrypoint-initdb.d/
-
-# Exponer el puerto de PostgreSQL
+# Exponer el puerto
 EXPOSE 5432

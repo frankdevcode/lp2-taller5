@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Servicio de base de datos
   db:
     build: ./database
     container_name: blog-db
@@ -14,6 +13,53 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bloguser -d blogdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - blog_network
+
+  api:
+    build: ./api
+    container_name: blog-api
+    restart: always
+    volumes:
+      - ./api:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      - SQLALCHEMY_DATABASE_URI=postgresql://bloguser:blogpassword@db:5432/blogdb
+    networks:
+      - blog_network
+
+  web:
+    build: ./web
+    container_name: blog-web
+    restart: always
+    command: flask run --host=0.0.0.0 --port=5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./web:/app
+    depends_on:
+      - api
+    environment:
+      - FLASK_APP=app
+      - FLASK_ENV=development
+      - FLASK_RUN_HOST=0.0.0.0
+      - FLASK_RUN_PORT=5000
+    networks:
+      - blog_network
+
+networks:
+  blog_network:
+    driver: bridge
 
 volumes:
   postgres_data:
+    driver: local

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - Blog{% endblock %}
+
+{% block meta_description %}{{ post.content[:160] }}{% endblock %}
+
+{% block meta_keywords %}{{ post.title }}, blog, artículo{% endblock %}
+
+{% block og_title %}{{ post.title }}{% endblock %}
+
+{% block og_description %}{{ post.content[:160] }}{% endblock %}
+
+{% block twitter_title %}{{ post.title }}{% endblock %}
+
+{% block twitter_description %}{{ post.content[:160] }}{% endblock %}
+
+{% block content %}
+{% if post %}
+    <article class="blog-post">
+        <h1 class="mb-4">{{ post.title }}</h1>
+        <div class="post-content">
+            {{ post.content }}
+        </div>
+    </article>
+    <div class="mt-4">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Volver al inicio</a>
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        La publicación no fue encontrada.
+        <a href="{{ url_for('index') }}" class="alert-link">Volver al inicio</a>
+    </div>
+{% endif %}
+{% endblock %}

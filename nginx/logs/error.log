@@ -1,0 +1,17 @@
+2025/04/11 01:52:54 [emerg] 1#1: host not found in upstream "web:5000" in /etc/nginx/nginx.conf:19
+2025/04/11 01:53:02 [emerg] 1#1: host not found in upstream "web:5000" in /etc/nginx/nginx.conf:19
+2025/04/11 01:53:10 [emerg] 1#1: host not found in upstream "web:5000" in /etc/nginx/nginx.conf:19
+2025/04/11 01:53:18 [emerg] 1#1: host not found in upstream "web:5000" in /etc/nginx/nginx.conf:19
+2025/04/11 01:53:27 [emerg] 1#1: host not found in upstream "web:5000" in /etc/nginx/nginx.conf:19
+2025/04/11 01:53:36 [emerg] 1#1: host not found in upstream "web:5000" in /etc/nginx/nginx.conf:19
+2025/04/11 01:53:46 [emerg] 1#1: host not found in upstream "web:5000" in /etc/nginx/nginx.conf:19
+2025/04/11 01:54:00 [emerg] 1#1: host not found in upstream "web:5000" in /etc/nginx/nginx.conf:19
+2025/04/11 01:54:08 [emerg] 1#1: host not found in upstream "web:5000" in /etc/nginx/nginx.conf:19
+2025/04/11 01:54:16 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+2025/04/11 01:54:17 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+2025/04/11 01:54:18 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+2025/04/11 01:54:20 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+2025/04/11 01:54:23 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+2025/04/11 01:54:29 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+2025/04/11 01:54:41 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
+2025/04/11 01:55:05 [emerg] 1#1: mkdir() "/var/cache/nginx/client_temp" failed (13: Permission denied)
