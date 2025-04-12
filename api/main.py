@@ -2,6 +2,15 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import posts, users, auth, categories, comments, health
 from app.database.init_db import create_tables
+import logging
+from app.scripts.migrate_slugs import migrate_posts_slugs
+
+# Configuración de logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Blog API",
@@ -29,7 +38,12 @@ app.include_router(health.router, prefix="/health", tags=["health"])
 @app.on_event("startup")
 async def startup():
     # Crear tablas si no existen
+    logger.info("Iniciando aplicación y creando tablas si no existen")
     create_tables()
+    
+    # Migrar slugs para posts existentes
+    logger.info("Ejecutando migración de slugs")
+    migrate_posts_slugs()
 
 @app.get("/", tags=["Root"])
 async def root():

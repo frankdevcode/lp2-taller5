@@ -22,18 +22,22 @@ def create_post(
         category_id=post.category_id,
         user_id=current_user.id
     )
+    # Generar el slug
     db.add(db_post)
+    db.flush()  # Necesario para obtener el ID
+    db_post.slug = db_post.generate_slug(db)
+    
     db.commit()
     db.refresh(db_post)
     return db_post
 
 @router.get("/", response_model=List[PostSchema])
 def read_posts(
-    skip: int = 0,
-    limit: int = 100,
+    skip: int = 0, 
+    limit: int = 10,
     db: Session = Depends(get_db)
 ):
-    """Obtiene la lista de publicaciones."""
+    """Lista todas las publicaciones con paginación."""
     posts = db.query(Post).offset(skip).limit(limit).all()
     return posts
 
@@ -42,7 +46,7 @@ def read_post(
     post_id: int,
     db: Session = Depends(get_db)
 ):
-    """Obtiene información de una publicación específica."""
+    """Obtiene información de una publicación por su ID."""
     db_post = db.query(Post).filter(Post.id == post_id).first()
     if db_post is None:
         raise HTTPException(
@@ -72,8 +76,7 @@ def update_post(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
-    """Actualiza una publicación."""
-    # Verificar si la publicación existe
+    """Actualiza una publicación existente."""
     db_post = db.query(Post).filter(Post.id == post_id).first()
     if db_post is None:
         raise HTTPException(
@@ -81,7 +84,7 @@ def update_post(
             detail="Publicación no encontrada"
         )
     
-    # Verificar permisos
+    # Verificar si el usuario actual es el autor de la publicación
     if db_post.user_id != current_user.id and not current_user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -91,6 +94,8 @@ def update_post(
     # Actualizar campos
     if post.title is not None:
         db_post.title = post.title
+        # Regenerar el slug si cambió el título
+        db_post.slug = db_post.generate_slug(db)
     if post.content is not None:
         db_post.content = post.content
     if post.category_id is not None:
@@ -107,7 +112,6 @@ def delete_post(
     current_user: User = Depends(get_current_active_user)
 ):
     """Elimina una publicación."""
-    # Verificar si la publicación existe
     db_post = db.query(Post).filter(Post.id == post_id).first()
     if db_post is None:
         raise HTTPException(
@@ -115,14 +119,13 @@ def delete_post(
             detail="Publicación no encontrada"
         )
     
-    # Verificar permisos
+    # Verificar si el usuario actual es el autor de la publicación
     if db_post.user_id != current_user.id and not current_user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="No tienes permiso para eliminar esta publicación"
         )
     
-    # Eliminar publicación
     db.delete(db_post)
     db.commit()
     return None

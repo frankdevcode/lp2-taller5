@@ -40,7 +40,7 @@
                         <p class="card-text">{{ post.content[:150] }}{% if post.content|length > 150 %}...{% endif %}</p>
                     </div>
                     <div class="card-footer bg-white border-top-0">
-                        <a href="{{ url_for('blog.post_detail', post_id=post.id) }}" class="btn btn-primary btn-sm">Leer más</a>
+                        <a href="{{ url_for('blog.post_detail', slug=post.slug) }}" class="btn btn-primary btn-sm">Leer más</a>
                         {% if post.category %}
                         <span class="badge bg-secondary float-end mt-2">{{ post.category.name }}</span>
                         {% endif %}

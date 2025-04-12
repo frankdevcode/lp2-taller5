@@ -14,11 +14,13 @@ class PostCreate(PostBase):
 class PostUpdate(BaseModel):
     title: Optional[str] = None
     content: Optional[str] = None
+    slug: Optional[str] = None
     category_id: Optional[int] = None
 
 class PostInDB(PostBase):
     id: int
     user_id: int
+    slug: str
     created_at: datetime
     updated_at: datetime
     

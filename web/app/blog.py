@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, render_template, abort, redirect, url_for
 import requests
 
 bp = Blueprint('blog', __name__)
@@ -26,10 +26,10 @@ def index():
     
     return render_template('blog/index.html', posts=posts, meta=meta)
 
-@bp.route('/post/<int:post_id>')
-def post_detail(post_id):
+@bp.route('/post/<slug>')
+def post_detail(slug):
     try:
-        response = requests.get(f'http://api:5000/api/v1/posts/{post_id}')
+        response = requests.get(f'http://api:5000/api/v1/posts/slug/{slug}')
         if response.status_code != 200:
             abort(404)
         post = response.json()
@@ -41,7 +41,7 @@ def post_detail(post_id):
         'description': post.get('content', '')[:160] + '...',
         'keywords': 'blog, post, detalle',
         'author': post.get('author', {}).get('username', 'Autor desconocido'),
-        'og_url': f'/post/{post_id}',
+        'og_url': f'/post/{slug}',
         'og_title': post.get('title', 'Post sin título'),
         'og_description': post.get('content', '')[:160] + '...',
         'og_image': post.get('image_url', '/static/img/og-image.jpg'),
@@ -50,3 +50,18 @@ def post_detail(post_id):
     }
     
     return render_template('blog/post_detail.html', post=post, meta=meta)
+
+# Ruta de compatibilidad para IDs
+@bp.route('/post/id/<int:post_id>')
+def post_detail_by_id(post_id):
+    try:
+        # Obtener el post por ID
+        response = requests.get(f'http://api:5000/api/v1/posts/{post_id}')
+        if response.status_code != 200:
+            abort(404)
+        post = response.json()
+        
+        # Redirigir a la URL con slug
+        return redirect(url_for('blog.post_detail', slug=post['slug']), code=301)
+    except requests.RequestException:
+        abort(500)
