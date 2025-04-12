@@ -21,8 +21,15 @@ def create_app(config_name='development'):
     cache.init_app(app)
     
     # Registrar blueprints
-    from . import blog
+    from . import blog, auth
     app.register_blueprint(blog.bp)
+    app.register_blueprint(auth.bp)
+    
+    # Función para verificar si el usuario está autenticado
+    @app.context_processor
+    def inject_user():
+        from flask import session
+        return {'user': session.get('username'), 'is_admin': session.get('is_admin', False)}
     
     # Crear tablas si no existen
     with app.app_context():

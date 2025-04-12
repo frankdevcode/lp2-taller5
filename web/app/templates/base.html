@@ -63,7 +63,31 @@
                         <a class="nav-link" href="#">Contacto</a>
                     </li>
                 </ul>
-                <form class="d-flex">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {% if user %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i> {{ user }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('auth.profile') }}"><i class="fas fa-id-card me-2"></i>Mi perfil</a></li>
+                            {% if is_admin %}
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-shield-alt me-2"></i>Administración</a></li>
+                            {% endif %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.endpoint == 'auth.login' %} active{% endif %}" href="{{ url_for('auth.login') }}"><i class="fas fa-sign-in-alt me-1"></i> Iniciar sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if request.endpoint == 'auth.register' %} active{% endif %}" href="{{ url_for('auth.register') }}"><i class="fas fa-user-plus me-1"></i> Registrarse</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <form class="d-flex ms-2">
                     <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
                     <button class="btn btn-outline-light" type="submit">Buscar</button>
                 </form>
