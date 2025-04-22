@@ -18,17 +18,29 @@
             </nav>
 
             <article class="blog-post">
-                <header>
-                    <h1 class="display-5 fw-bold mb-4">{{ post.title }}</h1>
-                    <div class="text-muted mb-4">
-                        {% if post.created_at %}
-                        <span class="me-3"><i class="fa fa-calendar me-1"></i> Publicado: {{ post.created_at.split('T')[0] }}</span>
-                        {% endif %}
-                        {% if post.author %}
-                        <span class="me-3"><i class="fa fa-user me-1"></i> Por: {{ post.author.username }}</span>
-                        {% endif %}
-                        {% if post.category %}
-                        <span class="badge bg-secondary"><i class="fa fa-tag me-1"></i> {{ post.category.name }}</span>
+                <header class="mb-4">
+                    <h1 class="display-5 fw-bold">{{ post.title }}</h1>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-muted">
+                            {% if post.created_at %}
+                            <span class="me-3"><i class="fa fa-calendar me-1"></i> Publicado: {{ post.created_at.split('T')[0] }}</span>
+                            {% endif %}
+                            {% if post.author %}
+                            <span class="me-3"><i class="fa fa-user me-1"></i> Por: {{ post.author.username }}</span>
+                            {% endif %}
+                            {% if post.category %}
+                            <span class="badge bg-secondary"><i class="fa fa-tag me-1"></i> {{ post.category.name }}</span>
+                            {% endif %}
+                        </div>
+                        {% if session.get('user_id') == post.user_id or session.get('is_admin') %}
+                        <div class="btn-group">
+                            <a href="{{ url_for('blog.edit_post', slug=post.slug) }}" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-edit me-1"></i>Editar
+                            </a>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <i class="fas fa-trash-alt me-1"></i>Eliminar
+                            </button>
+                        </div>
                         {% endif %}
                     </div>
                 </header>
@@ -81,9 +93,30 @@
                 {% endif %}
             </section>
 
-            <!-- Más adelante implementaremos el formulario de comentarios -->
+            <!-- Modal de confirmación para eliminar -->
+            {% if session.get('user_id') == post.user_id or session.get('is_admin') %}
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirmar eliminación</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Estás seguro de que deseas eliminar esta publicación? Esta acción no se puede deshacer.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form action="{{ url_for('blog.delete_post', slug=post.slug) }}" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
             
         </div>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}

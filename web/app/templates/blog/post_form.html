@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ 'Editar' if post else 'Crear' }} Publicación{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h4 mb-0">{{ 'Editar' if post else 'Crear' }} Publicación</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ post.title if post else '' }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Categoría</label>
+                            <select class="form-select" id="category" name="category_id">
+                                <option value="">Seleccionar categoría</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}" {% if post and post.category_id == category.id %}selected{% endif %}>
+                                    {{ category.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Contenido</label>
+                            <textarea class="form-control" id="content" name="content" rows="10" required>{{ post.content if post else '' }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tags" class="form-label">Etiquetas</label>
+                            <input type="text" class="form-control" id="tags" name="tags" value="{{ post.tags|join(', ') if post and post.tags else '' }}" placeholder="Separadas por comas">
+                            <div class="form-text">Ingresa las etiquetas separadas por comas</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Imagen destacada</label>
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                            {% if post and post.image_url %}
+                            <div class="mt-2">
+                                <img src="{{ post.image_url }}" class="img-thumbnail" style="max-height: 200px" alt="Imagen actual">
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>{{ 'Guardar cambios' if post else 'Publicar' }}
+                            </button>
+                            {% if post %}
+                            <button type="submit" name="draft" value="1" class="btn btn-secondary">
+                                <i class="fas fa-save me-1"></i>Guardar como borrador
+                            </button>
+                            {% endif %}
+                            <a href="{{ url_for('blog.index') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-1"></i>Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#content'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+{% endblock %}

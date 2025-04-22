@@ -16,6 +16,11 @@ def create_app(config_name='development'):
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://bloguser:blogpassword@db:5432/blogdb')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
+    # Configuración para archivos subidos
+    app.config['UPLOAD_FOLDER'] = os.path.join(app.static_folder, 'uploads')
+    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max-limit
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+    
     # Inicializar extensiones
     db.init_app(app)
     cache.init_app(app)
